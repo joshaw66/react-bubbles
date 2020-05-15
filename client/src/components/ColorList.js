@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { AxiosWithAuth } from '../utils/AxiosWithAuth';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 
@@ -14,9 +13,10 @@ const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-
-  
-  console.log('colors', colors)
+  const [newColor, setNewColor] = useState({
+    color: "",
+  code: { hex: "" }
+  })
 
   const editColor = color => {
     setEditing(true);
@@ -25,48 +25,75 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-   
+
     console.log('colorToEdit', colorToEdit)
     AxiosWithAuth()
-        .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+      .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
 
-        .then(res => {
-            AxiosWithAuth().get('http://localhost:5000/api/colors')
-                .then(res => {
-                   updateColors(res.data)
-                })
-                .catch(err => console.log(err))
-                console.log(res.data.payload);
-            history.push(`/`)
+      .then(res => {
 
-        })
-        .catch(err => {
-            console.log('err inside catch', err);
-        })
+        AxiosWithAuth().get('http://localhost:5000/api/colors')
+          .then(res => {
+            updateColors(res.data)
+          })
+          .catch(err => console.log(err))
+        console.log(res.data.payload);
+        history.push(`/`)
+
+      })
+      .catch(err => {
+        console.log('err inside catch', err);
+      })
 
   };
 
   const deleteColor = color => {
     console.log('colorToEdit', colorToEdit)
     AxiosWithAuth()
-        .delete(`http://localhost:5000/api/colors/${color.id}`, color)
+      .delete(`http://localhost:5000/api/colors/${color.id}`, color)
 
-        .then(res => {
-            console.log('res inside put', res)
-            console.log('res.data', res.data);
-            AxiosWithAuth().get('http://localhost:5000/api/colors')
-                .then(res => {
-                   updateColors(res.data)
-                })
-                .catch(err => console.log(err))
-                console.log(res.data.payload);
-            history.push(`/`)
+      .then(res => {
 
-        })
-        .catch(err => {
-            console.log('err inside catch', err);
-        })
+        AxiosWithAuth().get('http://localhost:5000/api/colors')
+          .then(res => {
+            updateColors(res.data)
+          })
+          .catch(err => console.log(err))
+        console.log(res.data.payload);
+        history.push(`/`)
+
+      })
+      .catch(err => {
+        console.log('err inside catch', err);
+      })
   };
+
+  const addColor = (e) => {
+    e.preventDefault();
+    console.log(newColor)
+
+    AxiosWithAuth()
+      .post('http://localhost:5000/api/colors', newColor)
+      .then(res => {
+        AxiosWithAuth().get('http://localhost:5000/api/colors')
+          .then(res => {
+            updateColors(res.data)
+          })
+          .catch(err => console.log(err))
+        console.log(res.data.payload);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  const handleChange = (e) => {
+    setNewColor({ ...newColor, [e.target.name]: e.target.value })
+  }
+
+  const handleHexChange = (e) => {
+    setNewColor({...newColor, code: {hex: e.target.value}})
+  }
 
   return (
     <div className="colors-wrap">
@@ -76,11 +103,11 @@ const ColorList = ({ colors, updateColors }) => {
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
               <span className="delete" onClick={e => {
-                    e.stopPropagation();
-                    deleteColor(color)
-                  }
-                }>
-                  x
+                e.stopPropagation();
+                deleteColor(color)
+              }
+              }>
+                X
               </span>{" "}
               {color.color}
             </span>
@@ -93,9 +120,9 @@ const ColorList = ({ colors, updateColors }) => {
       </ul>
       {editing && (
         <form onSubmit={saveEdit}>
-          <legend>edit color</legend>
+          <legend>Edit Color</legend>
           <label>
-            color name:
+            Color Name:
             <input
               onChange={e =>
                 setColorToEdit({ ...colorToEdit, color: e.target.value })
@@ -104,7 +131,7 @@ const ColorList = ({ colors, updateColors }) => {
             />
           </label>
           <label>
-            hex code:
+            Hex Code:
             <input
               onChange={e =>
                 setColorToEdit({
@@ -122,6 +149,24 @@ const ColorList = ({ colors, updateColors }) => {
         </form>
       )}
       <div className="spacer" />
+
+      <form onSubmit={(e) => addColor(e)}>
+        <p>Color:</p>
+        <input
+          type='text'
+          name='color'
+          onChange={(e) => handleChange(e)}
+        />
+        <p>Hex:</p>
+        <input
+          type='text'
+          name='hex'
+          onChange={(e) => handleHexChange(e)}
+        />
+
+        <p></p>
+        <button>Add Color</button>
+      </form>
     </div>
   );
 };
