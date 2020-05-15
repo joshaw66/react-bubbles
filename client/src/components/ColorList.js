@@ -15,7 +15,7 @@ const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
-  console.log('match.params.id outside put', match.params.id)
+  
   console.log('colors', colors)
 
   const editColor = color => {
@@ -25,15 +25,12 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-    e.preventDefault();
    
     console.log('colorToEdit', colorToEdit)
     AxiosWithAuth()
         .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
 
         .then(res => {
-            console.log('res inside put', res)
-            console.log('res.data', res.data);
             AxiosWithAuth().get('http://localhost:5000/api/colors')
                 .then(res => {
                    updateColors(res.data)
@@ -50,6 +47,25 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const deleteColor = color => {
+    console.log('colorToEdit', colorToEdit)
+    AxiosWithAuth()
+        .delete(`http://localhost:5000/api/colors/${color.id}`, color)
+
+        .then(res => {
+            console.log('res inside put', res)
+            console.log('res.data', res.data);
+            AxiosWithAuth().get('http://localhost:5000/api/colors')
+                .then(res => {
+                   updateColors(res.data)
+                })
+                .catch(err => console.log(err))
+                console.log(res.data.payload);
+            history.push(`/`)
+
+        })
+        .catch(err => {
+            console.log('err inside catch', err);
+        })
   };
 
   return (
@@ -106,7 +122,6 @@ const ColorList = ({ colors, updateColors }) => {
         </form>
       )}
       <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
     </div>
   );
 };
