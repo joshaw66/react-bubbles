@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Pack } from "@potion/layout";
 import { Svg, Circle } from "@potion/element";
+import styled from 'styled-components';
 
 const Bubbles = ({ colors }) => {
   const [bubbleData, setBubbleData] = useState([]);
@@ -12,9 +13,16 @@ const Bubbles = ({ colors }) => {
     setBubbleData(generateBubbleData);
   }, [colors]);
 
+  const BubbleContainer = styled.div`
+    background-color: #fff5d9;
+    width: 70%;
+    display: flex;
+    align-items: center;
+  `
+
   return (
-    <div className="bubble-wrap">
-      <p>bubbles</p>
+    <BubbleContainer className="bubble-wrap">
+      <p>Bubbles</p>
       <Svg width={400} height={400}>
         <Pack
           data={{
@@ -46,7 +54,7 @@ const Bubbles = ({ colors }) => {
           }
         </Pack>
       </Svg>
-    </div>
+    </BubbleContainer>
   );
 };
 

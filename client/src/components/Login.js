@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const Login = (props) => {
     const [newUser, setUser] = useState({
@@ -29,28 +30,59 @@ const Login = (props) => {
               console.log(err);
             })
     }
+
+    const LoginForm = styled.div`
+      display: flex;
+      background-color: grey;
+      width: 15%;
+      justify-content: center;
+    `
+
+    const Username = styled.div`
+      color: white;
+    `
+
+    const Password = styled.div`
+    color: white;
+    `
+
+    const SubmitButton = styled.button`
+      color: black;
+      padding: 10%;
+      border-radius: 10px;
+      border: solid lightgrey;
+
+        &:hover {
+          background-color: #fff5d9;
+          cursor: pointer;
+        }
+    `
+
+
     return (
-        <div>
+        <LoginForm>
             <form onSubmit={e => login(e)}>
-              <div>Username:</div>
+              <Username>Username:</Username>
                 <input
                   type="text"
                   name="username"
+                  // placeholder="enter username"
                   onChange={e => handleChange(e)}
                 />
                 <br></br>
-                <div>Password:</div>
+                <Password>Password:</Password>
                 <input
                   type='text'
                   name='password'
+                  // placeholder='enter password'
                   onChange={e => handleChange(e)}
                 />
                 <br></br>
-                <button
+                <SubmitButton
                    type='submit'
-                >Login</button>
+                >LOGIN</SubmitButton>
             </form>
-        </div>
+        </LoginForm>
       )
   }
   

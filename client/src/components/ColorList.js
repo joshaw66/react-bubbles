@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AxiosWithAuth } from '../utils/AxiosWithAuth';
 import { useRouteMatch, useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
 const initialColor = {
   color: "",
@@ -95,9 +96,14 @@ const ColorList = ({ colors, updateColors }) => {
     setNewColor({...newColor, code: {hex: e.target.value}})
   }
 
+
+  const ColorContainer = styled.div`
+    background-color: lightgrey;
+  `
+
   return (
-    <div className="colors-wrap">
-      <p>colors</p>
+    <ColorContainer className="colors-wrap">
+      <p>Colors</p>
       <ul>
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
@@ -167,7 +173,7 @@ const ColorList = ({ colors, updateColors }) => {
         <p></p>
         <button>Add Color</button>
       </form>
-    </div>
+    </ColorContainer>
   );
 };
 
