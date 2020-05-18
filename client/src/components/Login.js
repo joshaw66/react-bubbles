@@ -3,6 +3,35 @@ import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
+
+
+const LoginForm = styled.div`
+display: flex;
+background-color: grey;
+width: 15%;
+justify-content: center;
+`
+
+const Username = styled.div`
+color: black;
+`
+
+const Password = styled.div`
+color: black;
+`
+
+const SubmitButton = styled.button`
+color: black;
+padding: 10%;
+border-radius: 10px;
+border: solid lightgrey;
+
+  &:hover {
+    background-color: #fff5d9;
+    cursor: pointer;
+  }
+`
+
 const Login = (props) => {
     const [newUser, setUser] = useState({
         username: '',
@@ -31,32 +60,6 @@ const Login = (props) => {
             })
     }
 
-    const LoginForm = styled.div`
-      display: flex;
-      background-color: grey;
-      width: 15%;
-      justify-content: center;
-    `
-
-    const Username = styled.div`
-      color: white;
-    `
-
-    const Password = styled.div`
-    color: white;
-    `
-
-    const SubmitButton = styled.button`
-      color: black;
-      padding: 10%;
-      border-radius: 10px;
-      border: solid lightgrey;
-
-        &:hover {
-          background-color: #fff5d9;
-          cursor: pointer;
-        }
-    `
 
 
     return (
@@ -66,7 +69,6 @@ const Login = (props) => {
                 <input
                   type="text"
                   name="username"
-                  // placeholder="enter username"
                   onChange={e => handleChange(e)}
                 />
                 <br></br>
@@ -74,7 +76,6 @@ const Login = (props) => {
                 <input
                   type='text'
                   name='password'
-                  // placeholder='enter password'
                   onChange={e => handleChange(e)}
                 />
                 <br></br>
