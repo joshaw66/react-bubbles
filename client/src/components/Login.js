@@ -53,7 +53,7 @@ const Login = (props) => {
             .then(res => {
               localStorage.setItem('token', res.data.payload);
               console.log(res.data.payload);
-              props.history.push('/')
+              props.history.push('/BubblePage')
             })
             .catch(err => {
               console.log(err);

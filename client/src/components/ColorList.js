@@ -3,6 +3,11 @@ import { AxiosWithAuth } from '../utils/AxiosWithAuth';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
+
+const ColorContainer = styled.div`
+background-color: lightgrey;
+`
+
 const initialColor = {
   color: "",
   code: { hex: "" }
@@ -39,7 +44,7 @@ const ColorList = ({ colors, updateColors }) => {
           })
           .catch(err => console.log(err))
         console.log(res.data.payload);
-        history.push(`/`)
+        history.push(`/BubblePage`)
 
       })
       .catch(err => {
@@ -97,9 +102,6 @@ const ColorList = ({ colors, updateColors }) => {
   }
 
 
-  const ColorContainer = styled.div`
-    background-color: lightgrey;
-  `
 
   return (
     <ColorContainer className="colors-wrap">
